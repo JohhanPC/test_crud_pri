@@ -1,5 +1,6 @@
 package com.proyectoPri.registerUser.controller;
 
+import com.proyectoPri.registerUser.dtos.requests.RequestUserDto;
 import com.proyectoPri.registerUser.dtos.responses.SearchUserByEmail;
 import com.proyectoPri.registerUser.entity.User;
 import com.proyectoPri.registerUser.service.UserService;
@@ -21,8 +22,26 @@ public class UserController {
     public List<User> getAll(){
         return userService.getUsers();
     }
-    @PostMapping
-    public void saveUpdate(@RequestBody User user){
+
+    @PostMapping("/save")
+    public void save(@RequestBody RequestUserDto requestUserDto){
+        User user = new User();
+        user.setName(requestUserDto.getName());
+        user.setEmail(requestUserDto.getEmail());
+        user.setPassword(requestUserDto.getPassword());
+        user.setIdentificationNumber(requestUserDto.getIdentificationNumber());
+        user.setIdentificationType(requestUserDto.getIdentificationType());
+
+        userService.saveOrUpdateUser(user);
+    }
+
+    /*@PostMapping("/save")
+    public void save(@RequestBody User user) {
+        userService.saveOrUpdateUser(user);
+    }*/
+
+    @PostMapping("/update")
+    public void update(@RequestBody User user){
         userService.saveOrUpdateUser(user);
     }
 
